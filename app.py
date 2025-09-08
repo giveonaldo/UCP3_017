@@ -42,6 +42,30 @@ def add():
         return redirect(url_for('index'))
     return render_template('add.html')
 
+@app.route('/delete/<int:id>', methods=['POST'])
+def delete(id):
+    conn = get_connection()
+    conn.execute('DELETE FROM perpustakaan WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
+
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit(id):
+    conn = get_connection()
+    buku = conn.execute('SELECT * FROM perpustakaan WHERE id = ?', (id,)).fetchone()
+    if request.method == 'POST':
+        peminjam = request.form['peminjam']
+        buku = request.form['buku']
+        tanggal_peminjaman = request.form['tanggal_peminjaman']
+        tanggal_pengembalian = request.form['tanggal_pengembalian']
+        conn.execute('UPDATE perpustakaan SET peminjam = ?, buku = ?, tanggal_peminjaman = ?, tanggal_pengembalian = ?  WHERE id = ?',
+                     (peminjam, buku, tanggal_peminjaman,tanggal_pengembalian , id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('index'))
+    conn.close()
+    return render_template('edit.html', buku=buku)
 
 if __name__ == '__main__':
     app.run(debug=True)
