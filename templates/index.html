@@ -16,9 +16,10 @@
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
-            <th scope="col" class="px-6 py-3">Judul Buku</th>
-            <th scope="col" class="px-6 py-3">Penulis</th>
-            <th scope="col" class="px-6 py-3">Tahun Terbit</th>
+            <th scope="col" class="px-6 py-3">Nama Peminjam</th>
+            <th scope="col" class="px-6 py-3">Nama Buku</th>
+            <th scope="col" class="px-6 py-3">Tanggal Peminjam</th>
+            <th scope="col" class="px-6 py-3">Tanggal Pengembalian</th>
             <th scope="col" class="px-6 py-3">Setting</th>
           </tr>
         </thead>
@@ -30,9 +31,10 @@
           {% else %}
             {% for b in buku %}
               <tr class="bg-white border-b border-gray-200">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ b.judul }}</th>
-                <td class="px-6 py-4">{{ b.penulis }}</td>
-                <td class="px-6 py-4">{{ b.tahun_terbit }}</td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ b.peminjam }}</th>
+                <td class="px-6 py-4">{{ b.buku }}</td>
+                <td class="px-6 py-4">{{ b.tanggal_peminjaman }}</td>
+                <td class="px-6 py-4">{{ b.tanggal_pengembalian }}</td>
                 <td class="px-6 py-4 flex gap-2">
                   <a href="{{ url_for('edit', id=b.id) }}" class="text-blue-600 hover:underline">Edit</a>
                   <form method="POST" action="{{ url_for('delete', id=b.id) }}" style="display:inline;">

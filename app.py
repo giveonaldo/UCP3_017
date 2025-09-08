@@ -19,14 +19,16 @@ with get_connection() as conn:
         tanggal_pengembalian TEXT NOT NULL
     )''')
     conn.commit()
-    
+   
+# Home 
 @app.route('/')
 def index():
     conn = get_connection()
     buku = conn.execute('SELECT * FROM perpustakaan').fetchall()
     conn.close()
     return render_template('index.html', buku = buku)
-    
+   
+# Add 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
@@ -42,6 +44,7 @@ def add():
         return redirect(url_for('index'))
     return render_template('add.html')
 
+# Delete
 @app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
     conn = get_connection()
@@ -50,6 +53,7 @@ def delete(id):
     conn.close()
     return redirect(url_for('index'))
 
+# Edit
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
     conn = get_connection()
@@ -64,7 +68,7 @@ def edit(id):
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
-    conn.close()
+    conn.close()    
     return render_template('edit.html', buku=buku)
 
 if __name__ == '__main__':
